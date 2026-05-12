@@ -1,0 +1,6 @@
+# Copy this file to .dev.vars and fill in your values
+# .dev.vars is gitignored — never commit real keys
+
+LOBSTER_TRAP_URL=https://YOUR-USERNAME-sovereign-guard-proxy.hf.space
+GEMINI_API_KEY=AIzaSy_your_gemini_key_here
+QEMAIL_AUTH_TOKEN=qssn_live_your_qemail_key_here

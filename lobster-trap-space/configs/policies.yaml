@@ -1,0 +1,114 @@
+version: "1.0"
+policy_name: "sovereign-guard-enterprise"
+default_action: ALLOW
+
+ingress_rules:
+
+  # ── HIPAA Compliance Shield ──────────────────────────────────────────────────
+  # Healthcare-grade redaction for PHI, PII and clinical codes.
+
+  - name: redact_national_ids
+    group: hipaa
+    label: "Social Security Numbers"
+    description: "Strip 3-2-4 numeric SSN patterns from outbound content"
+    pattern: "\\d{3}-\\d{2}-\\d{4}"
+    action: REDACT
+    enabled: true
+
+  - name: redact_icd10_codes
+    group: hipaa
+    label: "ICD-10 Medical Codes"
+    description: "Redact diagnosis codes (ICD-10-*) from outbound copy"
+    pattern: "ICD-10-[\\w.]+"
+    action: REDACT
+    enabled: true
+
+  - name: redact_patient_dob
+    group: hipaa
+    label: "Date of Birth Fields"
+    description: "Detect and remove DOB strings in YYYY-MM-DD format"
+    pattern: "\\bDOB[:\\s]+\\d{4}-\\d{2}-\\d{2}\\b"
+    action: REDACT
+    enabled: true
+
+  - name: redact_patient_names
+    group: hipaa
+    label: "Patient Name Detection"
+    description: "Mask proper-name patterns adjacent to clinical keywords"
+    pattern: "(?i)(patient|client|member)[:\\s]+[A-Z][a-z]+ [A-Z][a-z]+"
+    action: REDACT
+    enabled: false
+
+  # ── SOC2 Financial Guard ─────────────────────────────────────────────────────
+  # Block leakage of internal credentials and infrastructure routes.
+
+  - name: block_private_key_hashes
+    group: soc2
+    label: "Crypto / Payout Hashes"
+    description: "Mask 0x… hex strings of 12+ chars (wallet addresses, tx hashes)"
+    pattern: "0x[a-fA-F0-9]{12,}"
+    action: DENY
+    deny_message: "Cryptographic security leak blocked by proxy ruleset."
+    enabled: true
+
+  - name: redact_db_secret_keys
+    group: soc2
+    label: "Internal Database Keys"
+    description: "Match sk_live_*, sk_test_*, and similar credential patterns"
+    pattern: "\\b(sk|pk|rk)_(live|test|prod)_[A-Za-z0-9]+"
+    action: REDACT
+    enabled: true
+
+  - name: redact_internal_routes
+    group: soc2
+    label: "Internal API Routes"
+    description: "Detect /v1/internal/*, /admin/*, and privileged path patterns"
+    pattern: "/(v\\d+/internal|admin|superadmin|_internal)/[A-Za-z0-9/_-]+"
+    action: REDACT
+    enabled: true
+
+  - name: redact_db_row_ids
+    group: soc2
+    label: "Database Row IDs"
+    description: "Strip ROW-SYS-* internal record identifiers"
+    pattern: "ROW-SYS-\\d+-\\w+"
+    action: REDACT
+    enabled: false
+
+  # ── Cyber Shield (Anti-Injection) ────────────────────────────────────────────
+  # Detect adversarial prompts and context-override attacks.
+
+  - name: prevent_prompt_injection_hijacks
+    group: cyber
+    label: "Override Directives"
+    description: "Catch 'ignore instructions', 'override settings', and similar hijack patterns"
+    pattern: "(?i)(ignore (previous )?instructions|override settings|display active keys|output password|forget (all )?previous)"
+    action: DENY
+    deny_message: "Malicious adversarial context override detected."
+    enabled: true
+
+  - name: prevent_system_prompt_extraction
+    group: cyber
+    label: "System Prompt Extraction"
+    description: "Block requests attempting to reveal system prompts or API keys"
+    pattern: "(?i)(reveal (your |the )?(system prompt|instructions|api key)|what (are|is) your (instructions|prompt|rules))"
+    action: DENY
+    deny_message: "System prompt extraction attempt blocked."
+    enabled: true
+
+  - name: prevent_tool_enumeration
+    group: cyber
+    label: "Tool / Function Name Probes"
+    description: "Detect attempts to enumerate available tools or function calls"
+    pattern: "(?i)(list (all |your )?(tools|functions|capabilities|commands)|what (tools|functions) (do you|can you))"
+    action: DENY
+    deny_message: "Tool enumeration probe blocked."
+    enabled: true
+
+  - name: redact_encoded_payloads
+    group: cyber
+    label: "Encoded Payload Heuristics"
+    description: "Inspect base64 / hex blobs that may contain hidden directives"
+    pattern: "[A-Za-z0-9+/]{40,}={0,2}"
+    action: REDACT
+    enabled: false

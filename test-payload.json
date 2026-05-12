@@ -1,0 +1,10 @@
+{
+  "recipient_email": "qvaultp@gmail.com",
+  "policy_type": "hipaa",
+  "notification_subtype": "lab_results",
+  "raw_prompt_input": "Patient screening data (10 records): ID 1: Male, 45y, BP 132/84, BMI 26.3, smoker, family history, hypertension stage 1. ID 2: Female, 49y, BP 119/78, BMI 21.1, non-smoker, no family history, normal. ID 3: Male, 38y, BP 128/82, BMI 25.7, smoker, family history, hypertension stage 1. ID 4: Female, 61y, BP 148/92, BMI 28.9, non-smoker, family history, hypertension stage 2 - HIGH RISK. ID 5: Male, 29y, BP 118/75, BMI 22.4, smoker, no family history, normal. ID 6: Female, 44y, BP 122/76, BMI 23.8, non-smoker, family history, normal. ID 7: Male, 57y, BP 142/88, BMI 27.5, smoker, family history, hypertension stage 2 - HIGH RISK. ID 8: Female, 36y, BP 115/72, BMI 21.9, non-smoker, no family history, normal. ID 9: Male, 50y, BP 135/85, BMI 26.8, smoker, family history, hypertension stage 1. ID 10: Female, 48y, BP 127/79, BMI 21.6, non-smoker, no family history, normal.",
+  "template_context": {
+    "subject": "Your Health Screening Results Are Ready",
+    "client_name": "Alex"
+  }
+}
