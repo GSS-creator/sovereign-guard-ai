@@ -113,11 +113,13 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <LayoutProvider>
         <div className="h-screen overflow-hidden bg-background bg-radial-glow flex">
-          {/* Sidebar — fixed on mobile, static on desktop */}
+          {/* Sidebar — bottom nav on mobile, static sidebar on desktop */}
           <Sidebar />
-          {/* Main content area */}
+          {/* Main content area — add pb-16 on mobile for bottom nav clearance */}
           <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-            <Outlet />
+            <div className="flex-1 flex flex-col min-w-0 overflow-hidden pb-16 lg:pb-0">
+              <Outlet />
+            </div>
           </main>
         </div>
       </LayoutProvider>

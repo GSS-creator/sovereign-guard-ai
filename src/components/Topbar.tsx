@@ -1,10 +1,8 @@
-import { Bell, Search, Menu, LogOut } from "lucide-react";
-import { useLayout } from "@/components/layout-context";
+import { Bell, Search, LogOut } from "lucide-react";
 import { getStoredOrg, clearAuthToken, logout } from "@/lib/api-client";
 import { useNavigate } from "@tanstack/react-router";
 
 export function Topbar({ title, subtitle }: { title: string; subtitle?: string }) {
-  const { setMobileOpen } = useLayout();
   const navigate = useNavigate();
   const org = getStoredOrg();
 
@@ -16,13 +14,6 @@ export function Topbar({ title, subtitle }: { title: string; subtitle?: string }
   return (
     <header className="h-16 shrink-0 border-b border-border px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3 bg-background/60 backdrop-blur-xl sticky top-0 z-20">
       <div className="flex items-center gap-3 min-w-0">
-        <button
-          onClick={() => setMobileOpen(true)}
-          className="lg:hidden h-9 w-9 shrink-0 rounded-md bg-surface border border-border flex items-center justify-center hover:bg-surface-elevated transition"
-          aria-label="Open menu"
-        >
-          <Menu className="h-4 w-4" />
-        </button>
         <div className="min-w-0">
           <h2 className="font-display text-base sm:text-xl font-semibold tracking-tight truncate">{title}</h2>
           {subtitle && <p className="hidden sm:block text-xs text-muted-foreground mt-0.5 truncate">{subtitle}</p>}
