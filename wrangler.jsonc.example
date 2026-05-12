@@ -1,0 +1,35 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sovereign-guard-ai",
+  "account_id": "YOUR_CLOUDFLARE_ACCOUNT_ID",
+  "compatibility_date": "2025-09-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "dist/server/server.js",
+  "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "LOBSTER_TRAP_URL": "https://YOUR_HF_USERNAME-sovereign-guard-proxy.hf.space"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "SOVEREIGN_GUARD_KV",
+      "id": "YOUR_KV_NAMESPACE_ID"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "sovereign_guard_db",
+      "database_name": "sovereign-guard-db",
+      "database_id": "YOUR_D1_DATABASE_ID"
+    }
+  ],
+  // Optional: only needed if your QEmail Worker is on the same Cloudflare account
+  "services": [
+    {
+      "binding": "QSSN_SERVICE",
+      "service": "qssn-d1-api"
+    }
+  ]
+}
