@@ -9,7 +9,7 @@
   <img src="public/smart.png" alt="QEmail Smart Connect" height="40"/>
 </p>
 
-> **"We used Veea's Lobster Trap as the ultimate compliance floor to eliminate the 'CISO barrier' by building live HIPAA and SOC2 policy packs at the edge. Because the data is safely sanitized locally, we unlock the full automated power of Gemini to act as a secure, domain-specific content engine, delivering pristine, audited notifications globally through QEmail Smart Connect."**
+> **"We used Veea's Lobster Trap as the ultimate compliance floor to eliminate the 'CISO barrier' by building live HIPAA and SOC2 policy packs at the edge. The DPI engine runs as a Docker container hosted on Hugging Face Spaces, so data is sanitized in the cloud before it ever reaches the AI — unlocking the full automated power of Gemini as a secure, domain-specific content engine. QEmail Smart Connect then acts as the email delivery engine, rendering and dispatching pristine, audited notifications globally. The entire system is built on a serverless architecture — Cloudflare Workers, D1, and KV — with no servers to manage and sub-second processing worldwide."**
 
 ---
 
@@ -291,6 +291,7 @@ Authorization: Bearer <your_token>
 | 🛡️ **Lobster Trap by Veea** | Deep Prompt Inspection (DPI) | [veea.com](https://www.veea.com/) · [GitHub](https://github.com/veeainc/lobstertrap) |
 | 📧 **Google Gmail** | Email infrastructure | [gmail.com](https://gmail.com) |
 | 🤖 **Lablab.ai** | Hackathon platform | [lablab.ai](https://lablab.ai) |
+| 🟢 **UptimeRobot** | Space uptime monitoring (keeps Hugging Face Space alive) | [uptimerobot.com](https://uptimerobot.com) |
 
 ---
 
@@ -413,6 +414,21 @@ curl https://YOUR_HF_USERNAME-sovereign-guard-proxy.hf.space/health
 ```
 https://YOUR_HF_USERNAME-sovereign-guard-proxy.hf.space
 ```
+
+**2e. Keep the Space alive with UptimeRobot**
+
+Hugging Face free-tier Spaces sleep after a period of inactivity. The Docker container includes a dedicated `/ping` endpoint that returns `{"status":"pong"}` — purpose-built for uptime monitors.
+
+Set up a free monitor at [dashboard.uptimerobot.com](https://dashboard.uptimerobot.com/monitors):
+
+1. Click **+ Add New Monitor**
+2. Set **Monitor Type** → `HTTP(s)`
+3. Set **Friendly Name** → `SovereignGuard DPI — Lobster Trap`
+4. Set **URL** → `https://YOUR_HF_USERNAME-sovereign-guard-proxy.hf.space/ping`
+5. Set **Monitoring Interval** → `5 minutes`
+6. Click **Create Monitor**
+
+UptimeRobot will ping the Space every 5 minutes, preventing it from sleeping and ensuring the DPI engine is always ready to process requests.
 
 ---
 

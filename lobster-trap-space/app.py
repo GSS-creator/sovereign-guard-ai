@@ -133,6 +133,17 @@ async def health():
         "default_action": DEFAULT_ACTION,
     }
 
+@app.get("/ping")
+async def ping():
+    """
+    Lightweight liveness probe for UptimeRobot (or any uptime monitor).
+    Returns 200 OK with a minimal JSON body — no policy evaluation,
+    no file I/O. Configure your UptimeRobot monitor to hit this URL:
+        https://<your-hf-space>.hf.space/ping
+    Expected response: { "status": "pong" }
+    """
+    return {"status": "pong"}
+
 @app.get("/policies")
 async def get_policies():
     """
