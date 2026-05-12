@@ -424,7 +424,7 @@ Set up a free monitor at [dashboard.uptimerobot.com](https://dashboard.uptimerob
 1. Click **+ Add New Monitor**
 2. Set **Monitor Type** → `HTTP(s)`
 3. Set **Friendly Name** → `SovereignGuard DPI — Lobster Trap`
-4. Set **URL** → `https://YOUR_HF_USERNAME-sovereign-guard-proxy.hf.space/ping`
+4. Set **URL** → `https://gsstec-sovereign-guard-proxy.hf.space/ping`
 5. Set **Monitoring Interval** → `5 minutes`
 6. Click **Create Monitor**
 
