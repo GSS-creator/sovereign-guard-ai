@@ -133,6 +133,12 @@ async def health():
         "default_action": DEFAULT_ACTION,
     }
 
+@app.api_route("/favicon.ico", methods=["GET", "HEAD"])
+async def favicon():
+    """Suppress browser favicon 404 noise in logs."""
+    from fastapi.responses import Response
+    return Response(status_code=204)
+
 @app.api_route("/ping", methods=["GET", "HEAD"])
 async def ping():
     """
