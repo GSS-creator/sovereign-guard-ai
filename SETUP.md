@@ -2,7 +2,7 @@
 
 ## Prerequisites
 - Node.js 18+ installed
-- Cloudflare account (ID: `913f9e13350f335dd1e2bac9a8317a38`)
+- Cloudflare account (find your Account ID at [dash.cloudflare.com](https://dash.cloudflare.com) → right sidebar)
 - Wrangler CLI (already installed via npm)
 
 ## Step 1: Update wrangler.jsonc
@@ -16,10 +16,10 @@ Replace the contents of `wrangler.jsonc` with:
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
-  "account_id": "913f9e13350f335dd1e2bac9a8317a38",
+  "account_id": "YOUR_CLOUDFLARE_ACCOUNT_ID",
 
   "vars": {
-    "LOBSTER_TRAP_URL": "https://your-huggingface-space.hf.space"
+    "LOBSTER_TRAP_URL": "https://YOUR_HF_USERNAME-sovereign-guard-proxy.hf.space"
   },
 
   "kv_namespaces": [
@@ -47,7 +47,7 @@ npx wrangler secret put GEMINI_API_KEY
 
 # Set the QSSN mail token
 npx wrangler secret put QEMAIL_AUTH_TOKEN
-# Paste: qssn_live_351304635ba0107d5041a7ebe3321253e0ce0f5cbe55ab21a7cce1198975c188
+# Paste your qssn_live_… key from smartconnect.gss-tec.com
 ```
 
 ## Step 4: Update .dev.vars for Local Development
