@@ -133,13 +133,14 @@ async def health():
         "default_action": DEFAULT_ACTION,
     }
 
-@app.get("/ping")
+@app.api_route("/ping", methods=["GET", "HEAD"])
 async def ping():
     """
     Lightweight liveness probe for UptimeRobot (or any uptime monitor).
+    Accepts both GET and HEAD — UptimeRobot uses HEAD by default.
     Returns 200 OK with a minimal JSON body — no policy evaluation,
     no file I/O. Configure your UptimeRobot monitor to hit this URL:
-        https://<your-hf-space>.hf.space/ping
+        https://gsstec-sovereign-guard-proxy.hf.space/ping
     Expected response: { "status": "pong" }
     """
     return {"status": "pong"}
